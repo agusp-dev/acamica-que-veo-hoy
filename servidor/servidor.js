@@ -2,6 +2,9 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var cors = require('cors');
+var peliculasControlador = require('./controladores/peliculaControlador');
+var generosControlador = require('./controladores/generoControlador');
+
 
 var app = express();
 
@@ -20,3 +23,5 @@ app.listen(puerto, function () {
   console.log( "Escuchando en el puerto " + puerto );
 });
 
+app.get('/peliculas', peliculasControlador.obtenerPeliculas);
+app.get('/generos', generosControlador.obtenerGeneros);

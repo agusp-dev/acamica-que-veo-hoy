@@ -1,0 +1,25 @@
+{
+  "name": "acamica-que-veo-hoy",
+  "version": "1.0.0",
+  "description": "Que Veo Hoy es una aplicacion de busqueda de peliculas, que utiliza Node.js Express.js y MySql.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thecode0101/acamica-que-veo-hoy.git"
+  },
+  "author": "Agustin Perez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thecode0101/acamica-que-veo-hoy/issues"
+  },
+  "homepage": "https://github.com/thecode0101/acamica-que-veo-hoy#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mysql": "^2.17.1"
+  }
+}
