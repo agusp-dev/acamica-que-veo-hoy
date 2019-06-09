@@ -72,6 +72,8 @@ function ControladorPeliculas() {
 
             var query = $.param(query_params);
 
+            console.log('/peliculas?' + query);
+
             //se hace el pedido al backend de las peliculas
             $.getJSON(servidor + "/peliculas?" + query,
                 function(data) {
