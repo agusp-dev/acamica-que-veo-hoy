@@ -16,7 +16,7 @@ function obtenerPeliculas(req, res) {
 
     //ojo con esto.. deberia ser like...
     if (req.query.titulo) {
-        params.push('titulo= "' + req.query.titulo + '"');
+        params.push('titulo LIKE "' + req.query.titulo + '%"');
     }
 
     //Verificamos si hay parametros para agregar a la query
