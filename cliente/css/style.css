@@ -600,6 +600,13 @@ img {
 	background-color: #313A4F;
 }
 
+/*
+.grid-pager .boton-pagina.active {
+	color: #FFF;
+	background-color: #313A4F;
+}
+*/
+
 /*-------*/
 
 .alerta-recomendacion, .error,
