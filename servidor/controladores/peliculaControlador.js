@@ -101,7 +101,6 @@ function obtenerQueryCantidad(query) {
 function obtenerCantidadPeliculas(queryCantidad, res, resultPeliculas) {
 
     console.log(queryCantidad);
-
     conexionBd.query(queryCantidad, function(error, resultCantidad, fields) {
         procesarResultadoCantidad(res, error, resultPeliculas, resultCantidad);
     });

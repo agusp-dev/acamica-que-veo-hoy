@@ -594,13 +594,13 @@ img {
 	color: #FFF;
 }
 
-.grid-pager .boton-pagina:first-child,
 .grid-pager .boton-pagina.active {
 	color: #FFF;
 	background-color: #313A4F;
 }
 
 /*
+.grid-pager .boton-pagina:first-child,
 .grid-pager .boton-pagina.active {
 	color: #FFF;
 	background-color: #313A4F;

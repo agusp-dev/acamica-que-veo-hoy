@@ -1,5 +1,8 @@
 //ip y puerto al que se le realizaran los pedidos
 var servidor = 'http://localhost:8080';
+//pagina activa
+var paginaActiva;
+
 $(document).ready(function() {
     //se hace el pedido al backend de todos los generos para cargalos en el listado de géneros
     $.getJSON(servidor + "/generos",
@@ -139,15 +142,28 @@ function ControladorPeliculas() {
                 boton.appendTo($(".btn-group"));
                 //este botón no va a ser mas de la clase ejemplo-boton
                 boton.removeClass("ejemplo-boton");
+                //agregamos background de pagina activa
+                self.establecerPaginaActiva(boton, i+1, paginaActiva);
                 //se muestra el botón creado
                 boton.show();
             }
             $(".boton-pagina").click(function() {
                 //cada boton tiene como funcionalidad buscarPeliculas(). A esta funcion se le pasa como parametro
                 //el atributo "numero-pagina".
-                self.buscarPeliculas($(this).attr("numero-pagina"));
+                paginaActiva = $(this).attr("numero-pagina");
+                self.buscarPeliculas(paginaActiva);
                 scroll(0, 0);
             });
+        },
+        this.establecerPaginaActiva = function(boton, numeroBoton, paginaActiva) {
+            if (!paginaActiva) {
+                if (numeroBoton == 1) {
+                    boton.addClass('active');
+                }
+            } else {
+                if (numeroBoton == paginaActiva) {
+                    boton.addClass('active');
+                }
+            }
         }
-
 }
