@@ -5,7 +5,7 @@ var cors = require('cors');
 var peliculasControlador = require('./controladores/peliculaControlador');
 var generosControlador = require('./controladores/generoControlador');
 var informacionControlador = require('./controladores/informacionControlador');
-
+var recomendacionControlador = require('./controladores/recomendacionControlador');
 
 var app = express();
 
@@ -26,4 +26,5 @@ app.listen(puerto, function () {
 
 app.get('/peliculas', peliculasControlador.obtenerPeliculas);
 app.get('/peliculas/:id', informacionControlador.obtenerInformacionPelicula);
+app.get('/recomendacion', recomendacionControlador.obtenerRecomendacion);
 app.get('/generos', generosControlador.obtenerGeneros);
