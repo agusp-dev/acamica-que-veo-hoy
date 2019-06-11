@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 var peliculasControlador = require('./controladores/peliculaControlador');
 var generosControlador = require('./controladores/generoControlador');
+var informacionControlador = require('./controladores/informacionControlador');
 
 
 var app = express();
@@ -24,4 +25,5 @@ app.listen(puerto, function () {
 });
 
 app.get('/peliculas', peliculasControlador.obtenerPeliculas);
+app.get('/peliculas/:id', informacionControlador.obtenerInformacionPelicula);
 app.get('/generos', generosControlador.obtenerGeneros);

@@ -8,6 +8,12 @@ CREATE TABLE genero (
     PRIMARY KEY (id)
 );
 
+CREATE TABLE actor (
+    id INT NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(70) NOT NULL,
+    PRIMARY KEY (id)
+);
+
 CREATE TABLE pelicula (
     id INT NOT NULL AUTO_INCREMENT,
     titulo VARCHAR(100) NOT NULL,
@@ -21,4 +27,13 @@ CREATE TABLE pelicula (
     genero_id INT DEFAULT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (genero_id) REFERENCES genero (id) 
+);
+
+CREATE TABLE actor_pelicula (
+    id INT NOT NULL AUTO_INCREMENT,
+    actor_id INT DEFAULT NULL,
+    pelicula_id INT DEFAULT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (actor_id) REFERENCES actor (id),
+    FOREIGN KEY (pelicula_id) REFERENCES pelicula (id)
 );
