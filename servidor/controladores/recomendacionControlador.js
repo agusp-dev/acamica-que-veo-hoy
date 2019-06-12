@@ -2,13 +2,18 @@ var conexionBd = require('../lib/conexionbd');
 
 function obtenerRecomendacion(req, res) {
 
-    var query = 'SELECT * FROM pelicula ';
+    var query = obtenerQuery();
 
     var queryParams = [];
+    /*
     if (req.query.genero) {
+        query = agregaClauseNombreGenero(query);
         query += agregarJoinGenero();
         queryParams.push('nombre = "' + req.query.genero + '"');
     }
+    */
+   //siempre se pasa un genero
+   queryParams.push('nombre = "' + req.query.genero + '"')
 
     if (req.query.anio_inicio) {
         queryParams.push('anio >= ' + req.query.anio_inicio);
@@ -35,11 +40,23 @@ function obtenerRecomendacion(req, res) {
     });
 }
 
+function obtenerQuery() {
+    return 'SELECT p.id, p.titulo, p.duracion, p.director, p.anio, p.fecha_lanzamiento,' +
+            ' p.puntuacion, p.poster, p.trama, g.nombre' +
+            ' FROM pelicula as p INNER JOIN genero as g ON genero_id = g.id';
+}
+
+/*
+function agregaClauseNombreGenero(query) {
+    return query.substring()
+}
+*/
+
 /**
  * Agrega join de tabla genero. 
  */
 function agregarJoinGenero() {
-    return ' INNER JOIN genero ON genero_id = genero.id';
+    return ' INNER JOIN genero as g ON genero_id = g.id';
 }
 
 /**
@@ -67,7 +84,7 @@ function procesarResultadoPeliculas(res, error, resultPeliculas) {
     var response = {
         'peliculas': resultPeliculas
     };
-    console.log(response);
+    console.log(response[0]);
     res.status(200).send(JSON.stringify(response));
 }
 

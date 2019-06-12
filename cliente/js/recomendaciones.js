@@ -62,8 +62,8 @@ function ControladorRecomendaciones() {
         //Este funcion redirige al usuario a la pagina que muestra mas informacion de la pelicula segun su id
         $(".botones-resultado .ver-mas").click(function() {
             var id = (self.pelicula_actual).id;
+            //alert('Id de recomendacion: ' + id + ' - ' + self.pelicula_actual);
             window.location.href = "info.html?id=" + id;
-            console.log(id);
         });
 
         //se le asigna funcionalidad al boton "Otra opcion" que se va a mostrar debajo de la pelicula recomendada.
@@ -114,7 +114,6 @@ function ControladorRecomendaciones() {
         if (Object.keys(query_params).length !== 0) {
             var query = $.param(query_params);
             var ruta = "/recomendacion?"
-            console.log(servidor + ruta + query);
         } else {
             var ruta = "/recomendacion";
             var query = "";
@@ -161,14 +160,12 @@ function ControladorRecomendaciones() {
         $(".datos-pelicula .trama").html(data.trama);
         $(".datos-pelicula .titulo").html(data.titulo);
         $(".datos-pelicula .genero").html(data.nombre);
-
     }
 
     //esta funcion se encarga de mostrar la alerta cuando no hay mas resultados
     this.noHayResultados = function(mensaje) {
         $(".datos-pelicula").hide();
         $(".alerta-recomendacion").show();
-
     }
 
     //esta funcion se encarga de reiniciar una recomendacion
@@ -186,7 +183,6 @@ function ControladorRecomendaciones() {
         }
         //esta funcion se encarga de desordenar un array
     this.desordenarArray = function(array) {
-
         for (var i = array.length - 1; i > 0; i--) {
             var j = Math.floor(Math.random() * (i + 1));
             var temp = array[i];
@@ -194,7 +190,5 @@ function ControladorRecomendaciones() {
             array[j] = temp;
         }
         return array;
-
     }
-
 }
