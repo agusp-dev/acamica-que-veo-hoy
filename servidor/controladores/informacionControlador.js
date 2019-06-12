@@ -4,7 +4,6 @@ function obtenerInformacionPelicula(req, res) {
 
     var id = req.params.id;
     var query = obtenerQueryInfoPeliculas(id);
-    console.log(query);
     conexionBd.query(query, function(error, resultInfoPelicula, fields) {
         procesarResultadoPeliculaInfo(id, res, error, resultInfoPelicula);
     });
@@ -27,7 +26,6 @@ function procesarResultadoPeliculaInfo(id, res, error, resultInfoPelicula) {
 }
 
 function obtenerActores(query, res, infoPelicula) {
-    console.log(query);
     conexionBd.query(query, function(error, resultActores, fields) {
         procesarResultadoActores(res, error, infoPelicula, resultActores);
     });
@@ -45,7 +43,6 @@ function procesarResultadoActores(res, error, infoPelicula, resultActores) {
         'pelicula': infoPelicula,
         'actores': resultActores
     };
-    console.log(response);
     res.status(200).send(JSON.stringify(response));
 }
 

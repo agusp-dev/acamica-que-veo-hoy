@@ -113,9 +113,9 @@ function ControladorRecomendaciones() {
 
         if (Object.keys(query_params).length !== 0) {
             var query = $.param(query_params);
-            var ruta = "/recomendacion?"
+            var ruta = "/recomendaciones?"
         } else {
-            var ruta = "/recomendacion";
+            var ruta = "/recomendaciones";
             var query = "";
         }
 

@@ -1,7 +1,8 @@
 var conexionBd = require('../lib/conexionbd');
 
 function obtenerPeliculas(req, res) {
-    var query = 'SELECT * FROM pelicula';
+    //var query = 'SELECT * FROM pelicula';
+    var query = obtenerQuery();
 
     var queryParams = [];
 
@@ -11,11 +12,11 @@ function obtenerPeliculas(req, res) {
     }
 
     if (req.query.anio) {
-        queryParams.push('anio=' + req.query.anio);
+        queryParams.push('p.anio=' + req.query.anio);
     }
 
     if (req.query.titulo) {
-        queryParams.push('titulo LIKE "' + req.query.titulo + '%"');
+        queryParams.push('p.titulo LIKE "%' + req.query.titulo + '%"');
     }
 
     //Verificamos si hay parametros para agregar a la query
@@ -28,27 +29,27 @@ function obtenerPeliculas(req, res) {
         query += agregarOrden(req.query.columna_orden, req.query.tipo_orden);
     }
 
-    console.log(req.query.pagina);
-    console.log(req.query.cantidad);
-
     //Verificamos paginacion
     if (req.query.pagina && req.query.cantidad) {
         query += agregarPaginacion(req.query.pagina, req.query.cantidad);
     }
-
-    console.log(queryParams);
-    console.log(query);
 
     conexionBd.query(query, function(error, resultPeliculas, fields) {
         procesarResultadoPeliculas(query, res, error, resultPeliculas);
     });
 }
 
+function obtenerQuery() {
+    return 'SELECT p.id, p.titulo, p.duracion, p.director, p.anio, p.fecha_lanzamiento,' +
+                ' p.puntuacion, p.poster, p.trama' +
+                ' FROM pelicula as p';
+}
+
 /**
  * Agrega join de tabla genero. 
  */
 function agregarJoinGenero() {
-    return ' INNER JOIN genero ON genero_id = genero.id';
+    return ' INNER JOIN genero ON p.genero_id = genero.id';
 }
 
 /**
@@ -69,7 +70,7 @@ function agregarClausulasQuery(params) {
  * Agrega orden por columna y tipo de orden
  */
 function agregarOrden(columna, tipo) {
-    return ' ORDER BY ' + columna + ' ' + tipo;    
+    return ' ORDER BY p.' + columna + ' ' + tipo;    
 }
 
 /**
@@ -95,19 +96,17 @@ function procesarResultadoPeliculas(query, res, error, resultPeliculas) {
  * Transforma query original para obtener cantidad de peliculas. 
  */
 function obtenerQueryCantidad(query) {
-    return query.replace('*', 'COUNT(id) AS total').replace(query.substring(query.indexOf('LIMIT')), '');
+    return query.replace(query.substring(7, query.indexOf('FROM')), 'COUNT(p.id) AS total ')
+                .replace(query.substring(query.indexOf('LIMIT')), '');
 }
 
 function obtenerCantidadPeliculas(queryCantidad, res, resultPeliculas) {
-
-    console.log(queryCantidad);
     conexionBd.query(queryCantidad, function(error, resultCantidad, fields) {
         procesarResultadoCantidad(res, error, resultPeliculas, resultCantidad);
     });
 }
 
 function procesarResultadoCantidad(res, error, resultPeliculas, resultCantidad) {
-
     //Se verifica que no haya habido errores.
     if (error) {
         console.log(error);
@@ -119,7 +118,6 @@ function procesarResultadoCantidad(res, error, resultPeliculas, resultCantidad) 
         'peliculas': resultPeliculas,
         'total': resultCantidad[0].total
     };
-    console.log(response);
     res.status(200).send(JSON.stringify(response));
 }
 

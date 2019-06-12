@@ -2,18 +2,15 @@ var conexionBd = require('../lib/conexionbd');
 
 function obtenerRecomendacion(req, res) {
 
-    var query = obtenerQuery();
-
+    var genero = req.query.genero;
     var queryParams = [];
-    /*
-    if (req.query.genero) {
-        query = agregaClauseNombreGenero(query);
-        query += agregarJoinGenero();
-        queryParams.push('nombre = "' + req.query.genero + '"');
+
+    var query = obtenerQuery(genero);
+    
+    //siempre se pasa un genero
+    if (genero) {
+        queryParams.push('g.nombre = "' + req.query.genero + '"')
     }
-    */
-   //siempre se pasa un genero
-   queryParams.push('nombre = "' + req.query.genero + '"')
 
     if (req.query.anio_inicio) {
         queryParams.push('anio >= ' + req.query.anio_inicio);
@@ -32,31 +29,19 @@ function obtenerRecomendacion(req, res) {
         query += agregarClausulasQuery(queryParams);
     }
 
-    console.log(queryParams);
-    console.log(query);
-
     conexionBd.query(query, function(error, resultPeliculas, fields) {
         procesarResultadoPeliculas(res, error, resultPeliculas);
     });
 }
 
-function obtenerQuery() {
-    return 'SELECT p.id, p.titulo, p.duracion, p.director, p.anio, p.fecha_lanzamiento,' +
-            ' p.puntuacion, p.poster, p.trama, g.nombre' +
-            ' FROM pelicula as p INNER JOIN genero as g ON genero_id = g.id';
-}
+function obtenerQuery(genero) {
+    return (genero) ? 'SELECT p.id, p.titulo, p.duracion, p.director, p.anio, p.fecha_lanzamiento,' +
+                        ' p.puntuacion, p.poster, p.trama, g.nombre' +
+                        ' FROM pelicula as p INNER JOIN genero as g ON genero_id = g.id'
 
-/*
-function agregaClauseNombreGenero(query) {
-    return query.substring()
-}
-*/
-
-/**
- * Agrega join de tabla genero. 
- */
-function agregarJoinGenero() {
-    return ' INNER JOIN genero as g ON genero_id = g.id';
+                    : 'SELECT p.id, p.titulo, p.duracion, p.director, p.anio, p.fecha_lanzamiento,' +
+                        ' p.puntuacion, p.poster, p.trama' +
+                        ' FROM pelicula as p';
 }
 
 /**
@@ -84,7 +69,6 @@ function procesarResultadoPeliculas(res, error, resultPeliculas) {
     var response = {
         'peliculas': resultPeliculas
     };
-    console.log(response[0]);
     res.status(200).send(JSON.stringify(response));
 }
 
